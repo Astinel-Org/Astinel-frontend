@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,15 +15,14 @@ export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const load = () => {
-    setLoading(true);
+  const load = useCallback(() => {
     api.get<Notification[]>("/v1/notifications")
       .then(setNotifications)
       .catch(console.error)
       .finally(() => setLoading(false));
-  };
+  }, []);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   const markRead = async (id: string) => {
     try {
@@ -45,7 +42,7 @@ export default function NotificationsPage() {
     }
   };
 
-  const severityColor: Record<string, any> = {
+  const severityColor: Record<string, string> = {
     info: "info", warning: "medium", error: "destructive", success: "success",
   };
 

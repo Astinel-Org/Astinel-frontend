@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   Card,
@@ -11,7 +11,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
+
+
 import { api } from "@/lib/api";
 import type { Scan, ScanResult, Finding, ApiResponse } from "@/types";
 import { ArrowLeft, RotateCw, XCircle } from "lucide-react";
@@ -24,7 +25,7 @@ export default function ScanDetailPage() {
   const [findings, setFindings] = useState<Finding[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const load = () => {
+  const load = useCallback(() => {
     const id = params.id as string;
     Promise.all([
       api.get<ApiResponse<Scan>>(`/v1/scans/${id}`).then(r => r.data),
@@ -38,9 +39,9 @@ export default function ScanDetailPage() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  };
+  }, [params.id]);
 
-  useEffect(() => { load(); }, [params.id]);
+  useEffect(() => { load(); }, [load]);
 
   const cancel = async () => {
     await api.post(`/v1/scans/${params.id}/cancel`);
@@ -55,7 +56,7 @@ export default function ScanDetailPage() {
   if (loading) return <p className="text-muted-foreground">Loading...</p>;
   if (!scan) return <p className="text-muted-foreground">Scan not found</p>;
 
-  const severityColor: Record<string, any> = {
+  const severityColor: Record<string, string> = {
     Critical: "critical", High: "high", Medium: "medium", Low: "low", Info: "info",
   };
 

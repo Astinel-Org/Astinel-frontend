@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -60,7 +60,7 @@ export default function DashboardPage() {
             <div className="space-y-3">
               {data.findings_by_severity.map((s) => (
                 <div key={s.severity} className="flex items-center gap-3">
-                  <Badge variant={(severityColor[s.severity] || "default") as any}>
+                  <Badge variant={(severityColor[s.severity] || "default") as "critical" | "high" | "medium" | "low" | "info" | "default"}>
                     {s.severity}
                   </Badge>
                   <Progress value={Math.min(100, (s.count / Math.max(1, data.total_findings)) * 100)} className="flex-1" />
@@ -113,7 +113,7 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({ icon: Icon, label, value }: { icon: any; label: string; value: number | string }) {
+function StatCard({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: number | string }) {
   return (
     <Card>
       <CardContent className="flex items-center gap-4 p-6">
@@ -129,7 +129,7 @@ function StatCard({ icon: Icon, label, value }: { icon: any; label: string; valu
   );
 }
 
-function MetricCard({ label, value, variant }: { label: string; value: number; variant: string }) {
+function MetricCard({ label, value }: { label: string; value: number; variant: string }) {
   return (
     <Card>
       <CardContent className="p-6">

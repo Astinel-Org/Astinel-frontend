@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,15 +16,14 @@ export default function ProjectsPage() {
   const [showNew, setShowNew] = useState(false);
   const [name, setName] = useState("");
 
-  const load = () => {
-    setLoading(true);
+  const load = useCallback(() => {
     api.get<Project[]>("/v1/projects")
       .then(setProjects)
       .catch(console.error)
       .finally(() => setLoading(false));
-  };
+  }, []);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   const create = async () => {
     if (!name.trim()) return;

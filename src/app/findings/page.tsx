@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,15 +17,14 @@ export default function FindingsPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
 
-  const load = () => {
-    setLoading(true);
+  const load = useCallback(() => {
     api.get<Finding[]>("/v1/findings")
       .then(setFindings)
       .catch(console.error)
       .finally(() => setLoading(false));
-  };
+  }, []);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   const toggleSuppress = async (id: string, suppressed: boolean) => {
     try {
@@ -42,7 +39,7 @@ export default function FindingsPage() {
     !filter || f.severity.toLowerCase() === filter.toLowerCase() || f.rule_id.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const severityColor: Record<string, any> = {
+  const severityColor: Record<string, string> = {
     Critical: "critical", High: "high", Medium: "medium", Low: "low", Info: "info",
   };
 

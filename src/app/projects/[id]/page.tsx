@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   Card,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+
 import { api } from "@/lib/api";
 import type { Project, Scan, ApiResponse } from "@/types";
 import { ArrowLeft, Play, Trash2 } from "lucide-react";
@@ -22,7 +22,7 @@ export default function ProjectDetailPage() {
   const [scans, setScans] = useState<Scan[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const load = () => {
+  const load = useCallback(() => {
     const id = params.id as string;
     Promise.all([
       api.get<ApiResponse<Project>>(`/v1/projects/${id}`).then(r => r.data),
@@ -34,9 +34,9 @@ export default function ProjectDetailPage() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  };
+  }, [params.id]);
 
-  useEffect(() => { load(); }, [params.id]);
+  useEffect(() => { load(); }, [load]);
 
   const triggerScan = async () => {
     try {

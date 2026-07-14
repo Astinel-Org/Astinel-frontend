@@ -21,11 +21,11 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const res: any = await api.post("/v1/auth/login", { email, password });
-      api.setToken(res.data?.token || res.token);
+      const res = await api.post<{ token: string }>("/v1/auth/login", { email, password });
+      api.setToken(res.token);
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message || "Login failed");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setLoading(false);
     }
