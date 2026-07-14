@@ -56,7 +56,7 @@ export default function ScanDetailPage() {
   if (loading) return <p className="text-muted-foreground">Loading...</p>;
   if (!scan) return <p className="text-muted-foreground">Scan not found</p>;
 
-  const severityColor: Record<string, string> = {
+  const severityColor: Record<string, "critical" | "high" | "medium" | "low" | "info"> = {
     Critical: "critical", High: "high", Medium: "medium", Low: "low", Info: "info",
   };
 
@@ -120,7 +120,7 @@ export default function ScanDetailPage() {
                   {findings.map((f) => (
                     <div key={f.id} className="p-3 rounded-lg bg-muted/50">
                       <div className="flex items-center gap-2 mb-1">
-                        <Badge variant={severityColor[f.severity] || "default"}>{f.severity}</Badge>
+                        <Badge variant={(severityColor[f.severity] || "default") as "critical" | "high" | "medium" | "low" | "info" | "default"}>{f.severity}</Badge>
                         <span className="text-sm font-mono text-muted-foreground">{f.rule_id}</span>
                       </div>
                       <p className="text-sm">{f.message}</p>

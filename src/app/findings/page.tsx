@@ -39,7 +39,7 @@ export default function FindingsPage() {
     !filter || f.severity.toLowerCase() === filter.toLowerCase() || f.rule_id.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const severityColor: Record<string, string> = {
+  const severityColor: Record<string, "critical" | "high" | "medium" | "low" | "info"> = {
     Critical: "critical", High: "high", Medium: "medium", Low: "low", Info: "info",
   };
 
@@ -77,7 +77,7 @@ export default function FindingsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <Badge variant={severityColor[f.severity] || "default"}>{f.severity}</Badge>
+                      <Badge variant={(severityColor[f.severity] || "default") as "critical" | "high" | "medium" | "low" | "info" | "default"}>{f.severity}</Badge>
                       <span className="text-sm font-mono text-muted-foreground">{f.rule_id}</span>
                       <Badge variant="secondary">{f.category}</Badge>
                       {f.is_suppressed && <Badge variant="outline">Suppressed</Badge>}

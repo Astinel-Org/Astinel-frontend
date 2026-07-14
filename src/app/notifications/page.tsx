@@ -42,7 +42,7 @@ export default function NotificationsPage() {
     }
   };
 
-  const severityColor: Record<string, string> = {
+  const severityColor: Record<string, "info" | "medium" | "destructive" | "success"> = {
     info: "info", warning: "medium", error: "destructive", success: "success",
   };
 
@@ -77,7 +77,7 @@ export default function NotificationsPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     {!n.is_read && <span className="h-2 w-2 rounded-full bg-primary" />}
-                    <Badge variant={severityColor[n.severity] || "secondary"}>{n.event_type}</Badge>
+                    <Badge variant={(severityColor[n.severity] || "secondary") as "info" | "medium" | "destructive" | "success" | "secondary"}>{n.event_type}</Badge>
                     <span className="text-xs text-muted-foreground">{new Date(n.created_at).toLocaleString()}</span>
                   </div>
                   <p className="text-sm font-medium">{n.title}</p>
