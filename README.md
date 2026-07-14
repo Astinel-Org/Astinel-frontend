@@ -3,6 +3,7 @@
 Next.js web application for the Astinel security scanning platform.
 
 [![CI](https://github.com/Astinel-Org/Astinel-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/Astinel-Org/Astinel-frontend/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
 ## Pages
 
