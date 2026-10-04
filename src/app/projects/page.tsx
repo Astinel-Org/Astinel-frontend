@@ -32,8 +32,8 @@ export default function ProjectsPage() {
       setName("");
       setShowNew(false);
       load();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 
