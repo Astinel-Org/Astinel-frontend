@@ -27,8 +27,8 @@ export default function ScansPage() {
     try {
       await api.post(`/v1/scans/${id}/cancel`);
       load();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 
@@ -36,8 +36,8 @@ export default function ScansPage() {
     try {
       await api.post(`/v1/scans/${id}/retry`);
       load();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 

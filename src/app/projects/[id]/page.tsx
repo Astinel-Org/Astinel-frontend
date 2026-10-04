@@ -42,8 +42,8 @@ export default function ProjectDetailPage() {
     try {
       await api.post("/v1/scans", { project_id: params.id });
       load();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 
@@ -52,8 +52,8 @@ export default function ProjectDetailPage() {
     try {
       await api.delete(`/v1/projects/${params.id}`);
       router.push("/projects");
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 

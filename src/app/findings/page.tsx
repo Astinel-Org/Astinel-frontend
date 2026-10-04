@@ -30,8 +30,8 @@ export default function FindingsPage() {
     try {
       await api.patch(`/v1/findings/${id}`, { is_suppressed: !suppressed });
       load();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 
