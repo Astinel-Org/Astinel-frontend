@@ -28,8 +28,8 @@ export default function NotificationsPage() {
     try {
       await api.post(`/v1/notifications/${id}/read`);
       load();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 
@@ -37,8 +37,8 @@ export default function NotificationsPage() {
     try {
       await api.post("/v1/notifications/read-all");
       load();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      console.error(err instanceof Error ? err.message : err);
     }
   };
 
